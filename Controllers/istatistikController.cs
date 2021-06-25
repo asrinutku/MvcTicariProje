@@ -55,10 +55,10 @@ namespace MvcTicariOtomasyon.Controllers
             ViewBag.d14 = d14;
 
             DateTime bugun = DateTime.Today;
-            var d15 = c.SatisHarekets.Count(x => x.Tarih == bugun).ToString();
+            var d15 = c.SatisHarekets.Count().ToString();
             ViewBag.d15 = d15;
 
-            var d16 = c.SatisHarekets.Where(x => x.Tarih == bugun).Sum(y => y.ToplamTutar).ToString();
+            var d16 = c.SatisHarekets.Where(x => x.Tarih == bugun).Sum(y => (decimal?)y.ToplamTutar).ToString();
             ViewBag.d16 = d16;
 
 

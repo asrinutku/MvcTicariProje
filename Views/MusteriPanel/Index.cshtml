@@ -1,0 +1,34 @@
+﻿@model MvcTicariOtomasyon.Models.Siniflar.Cariler
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_MusteriLayout.cshtml";
+}
+<br />
+<h2>Müşteri Bilgileri</h2>
+
+<br />
+
+@using(Html.BeginForm("Index2","MusteriPanel",FormMethod.Post))
+  {
+        <table class="table table-bordered">
+            <tr>
+                <td>
+                    <label>Mail Adresi : @HttpContext.Current.User.Identity.Name</label>
+                </td>
+            </tr>
+
+            <tr>
+                <td>@Html.TextBoxFor(x => x.CariAd, new { @class = "form-control" })</td>
+            </tr>
+
+            <tr>
+                <td>@Html.TextBoxFor(x => x.CariSoyad, new { @class = "form-control" })</td>
+            </tr>
+
+            <tr>
+                <td>@Html.TextBoxFor(x => x.CariSehir, new { @class = "form-control" })</td>
+            </tr>
+
+        </table>
+        <button class="btn btn-warning">Bilgi Guncelle</button>
+            }

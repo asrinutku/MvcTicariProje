@@ -77,6 +77,35 @@ namespace MvcTicariOtomasyon.Controllers
             return View(degerler);
         }
 
+        [HttpGet]
+        public ActionResult UrunSat(int id)
+        {
+
+            List<SelectListItem> deger1 = (from x in c.Personels.ToList()
+                                           select new SelectListItem
+                                           {
+                                               Text = x.PersonelAd + " " + x.PersonelSoyad,
+                                               Value = x.Personelid.ToString()
+                                           }).ToList();
+
+            ViewBag.dgr1 = deger1;
+
+            var deger2 = c.Uruns.Find(id);
+            ViewBag.dgr2 = deger2.Urunid;
+            ViewBag.dgr3 = deger2.SatisFiyat;
+            
+
+
+            return View();
+        }
+        [HttpPost]
+        public ActionResult UrunSat(SatisHareket sh)
+        {
+            sh.Tarih = DateTime.Parse(DateTime.Now.ToShortDateString());
+            c.SatisHarekets.Add(sh);
+            c.SaveChanges();
+            return RedirectToAction("Index","Satis");
+        }
 
     }
 }
