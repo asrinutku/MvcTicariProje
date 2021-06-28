@@ -29,5 +29,70 @@ namespace MvcTicariOtomasyon.Controllers
             var degerler = c.SatisHarekets.Where(x => x.Cariid == id).ToList();
             return View(degerler);
         }
+
+
+        public ActionResult GelenMesajlar()
+        {
+            var mail = (string)Session["CariMail"];
+            var mesajlar = c.Mesajlars.Where(x => x.Alici == mail).OrderByDescending(x => x.MesajID).ToList();
+            var a = c.Mesajlars.Count(x => x.Alici == mail).ToString();
+            var b = c.Mesajlars.Count(x => x.Gonderici == mail).ToString();
+            
+            ViewBag.d1 = a;
+            ViewBag.d2 = b;
+            return View(mesajlar);
+        }
+
+        public ActionResult GidenMesajlar()
+        {
+            var mail = (string)Session["CariMail"];
+            var mesajlar = c.Mesajlars.Where(x => x.Gonderici == mail).OrderByDescending(z => z.MesajID).ToList();
+            var a = c.Mesajlars.Count(x => x.Gonderici == mail).ToString();
+            var b = c.Mesajlars.Count(x => x.Alici == mail).ToString();
+
+            ViewBag.d1 = b;
+            ViewBag.d2 = a;
+            return View(mesajlar);
+        }
+
+        public ActionResult Mesaj(int id)
+        {
+            var mesaj = c.Mesajlars.Where(x => x.MesajID == id).ToList();
+            var mail = (string)Session["CariMail"];
+            var a = c.Mesajlars.Count(x => x.Alici == mail).ToString();
+            var b = c.Mesajlars.Count(x => x.Gonderici == mail).ToString();
+
+            ViewBag.d1 = a;
+            ViewBag.d2 = b;
+            return View(mesaj);
+        }
+
+
+
+
+        [HttpGet]
+        public ActionResult YeniMesaj()
+        {   
+            var mail = (string)Session["CariMail"];
+            var a = c.Mesajlars.Count(x => x.Alici == mail).ToString();
+            var b = c.Mesajlars.Count(x => x.Gonderici == mail).ToString();
+
+            ViewBag.d1 = a;
+            ViewBag.d2 = b;
+            return View();
+
+        }
+        [HttpPost]
+        public ActionResult YeniMesaj(Mesajlar m)
+        {
+            var mail = (string)Session["CariMail"];
+            m.Gonderici = mail;
+            m.Tarih = DateTime.Parse(DateTime.Now.ToShortDateString());
+            c.Mesajlars.Add(m);
+            c.SaveChanges();
+            
+            return View();
+
+        }
     }
 }
